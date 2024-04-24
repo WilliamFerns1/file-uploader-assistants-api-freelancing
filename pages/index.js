@@ -22,7 +22,14 @@ export default function Home() {
 
   async function getResult() {
     setLoading(true) 
-    const result = await fetch("/api/ask")
+    const result = await fetch("/api/ask", {
+      method: "POST",
+      body: JSON.stringify({
+        "question": question,
+        "linkOrText": linkOrText,
+      }),
+      contentType: "application/json",
+    })
     const resultJson = await result.json()
     const resultMessage = resultJson.message
 
@@ -46,7 +53,7 @@ export default function Home() {
             id="link-or-text" 
             value={linkOrText} 
             onChange={e => setLinkOrText(e.target.value)}
-            className="px-[15px] py-[7px] rounded-[5px]" 
+            className="px-[15px] py-[7px] rounded-[5px] text-black"
             name="link-or-text" type="text" 
             placeholder="Paste a link or text" 
           />
@@ -54,7 +61,7 @@ export default function Home() {
         <div className="flex flex-col gap-[5px]">
           <label for="link-or-text" className="text-xl font-medium">Question</label>
           <textarea 
-            className="px-[15px] py-[7px] rounded-[5px]" 
+            className="px-[15px] py-[7px] rounded-[5px] text-black" 
             name="message" 
             placeholder="Type a message"
             value={question} 
