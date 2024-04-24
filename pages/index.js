@@ -7,18 +7,11 @@ import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const [result, setResult] = useState({});
+  const [result, setResult] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [question, setQuestion] = useState("");
   const [linkOrText, setLinkOrText] = useState("");
-
-  useEffect(() => {
-    if (Object.keys(result).length > 0) {
-      document.getElementById("result").innerText = `Result: ${result}`;
-      setResult("")
-    }
-  }, [result])
 
   async function getResult() {
     setLoading(true) 
@@ -33,6 +26,8 @@ export default function Home() {
     const resultJson = await result.json()
     const resultMessage = resultJson.message
 
+    console.log("Result JSON: ", resultJson)
+    console.log("Result Message: ", resultMessage)
     if (resultMessage) {
       setResult(resultMessage)
     }
@@ -48,7 +43,7 @@ export default function Home() {
     >
       <div className="w-full flex align-center flex-col gap-[15px]">
         <div className="flex flex-col gap-[5px]">
-          <label for="link-or-text" className="text-xl font-medium">Link or Text</label>
+          <label htmlFor="link-or-text" className="text-xl font-medium">Link or Text</label>
           <input 
             id="link-or-text" 
             value={linkOrText} 
@@ -59,7 +54,7 @@ export default function Home() {
           />
         </div>
         <div className="flex flex-col gap-[5px]">
-          <label for="link-or-text" className="text-xl font-medium">Question</label>
+          <label htmlFor="link-or-text" className="text-xl font-medium">Question</label>
           <textarea 
             className="px-[15px] py-[7px] rounded-[5px] text-black" 
             name="message" 
@@ -79,16 +74,14 @@ export default function Home() {
         </button>
       </div>
       {
-        Object.keys(result).length > 0 && (
+        result.length > 5 && (
           <div className="w-full h-full flex flex-col gap-[5px] ">
             <h3
-              className="text-2xl"
+              className="text-2xl text-white"
             >
               Result: 
             </h3>
-            <div 
-              id="result"
-              className="text-black px-[15px] py-[10px] bg-white w-full h-[200px] rounded-[5px]"></div>
+            <p>{result}</p>
           </div>
         )
       }
