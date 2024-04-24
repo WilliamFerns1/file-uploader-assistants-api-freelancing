@@ -98,7 +98,7 @@ async function getDocumentTextFromLink(link) {
     console.log(citations.join("\n"));
 
     // Delete the file after use
-    fs.unlikcSync(fileName);
+    fs.unlinkSync(fileName);
     console.log(`File "${fileName}" deleted successfully.`);
     return text.value;
   }
